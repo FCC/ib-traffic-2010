@@ -1,0 +1,70 @@
+{
+  "bounds": [
+    -180,
+    -85.0511,
+    180,
+    85.0511
+  ],
+  "center": [
+    0,
+    0,
+    2
+  ],
+  "format": "png",
+  "interactivity": {
+    "layer": "traffic_2010",
+    "template_teaser": "<table class=\"tbl-data\">\n<tr>\n  <th colspan=\"2\" class=\"center\"><strong>{{{region}}}, {{{country}}}</strong></th>\n</tr>\n<tr>\n  <th colspan=\"2\" class=\"center\"><strong>Traffic Billed in the U.S. - Number of Minutes</strong></th>\n</tr>\n<tr>\n  <th colspan=\"2\" class=\"center\">{{{minutes}}}</th>\n</tr>  \n<tr>\n  <td colspan=\"2\" class=\"center\">{{{country}}}'s Percent of minutes in Region: {{{pct_country}}}%</td>\n</tr>\n</table>\n\n<style type=\"text/css\">\n .ts-map .wax-tooltip {\n  max-width: 550px !important;\n  max-height:550px !important;\n  overflow:visible !important;\n  width:auto\\9 !important;\n}\n .tbl-data th.center {\n text-align: center;\n } \n .tbl-data td, .tbl-data th {\n border: none;\n }\n</style>",
+    "fields": [
+      "region",
+      "country",
+      "minutes",
+      "county",
+      "pxt_country",
+      "pct_region",
+      "gid"
+    ]
+  },
+  "minzoom": 1,
+  "maxzoom": 2,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "style.mss"
+  ],
+  "Layer": [
+    {
+      "id": "countries",
+      "name": "countries",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "geometry": "polygon",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.4.0/cultural/10m-admin-0-countries.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "geometry": "point",
+      "Datasource": {
+        "type": "postgis",
+        "table": "(select country, region, to_char(minutes_billed_us,'999,999,999,999') as minutes, pct_country, pct_region, geom, gid, symsize\nfrom ib.traffic_2010\nwhere minutes_billed_us > 0) as traffic_2010\n",
+        "extent": "",
+        "key_field": "gid",
+        "geometry_field": "geom",
+        "host": "localhost",
+        "port": "54321",
+        "dbname": "fccgis",
+        "id": "traffic_2010",
+        "project": "ib_traffic_2010",
+        "srs": null
+      },
+      "id": "traffic_2010",
+      "class": "",
+      "srs-name": "WGS84",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "name": "traffic_2010"
+    }
+  ],
+  "name": "International Minutes Traffic from US 2010",
+  "description": "International calling traffic (in minutes) originating in the U.S. from 2010",
+  "legend": "",
+  "attribution": ""
+}
